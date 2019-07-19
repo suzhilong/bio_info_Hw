@@ -1,49 +1,36 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import glob
+import cv2
 
-#logistic
+#read data
+data_dir = '/home/su/code/bio_Hw/chest_xray/chest_xray/'
 
-def sigmoid(z):
-	s = 1/(1+np.exp(-z))
-	return s
+train_dir = data_dir+'train/'
+test_dir = data_dir+'test/'
 
-def costFun(params, X, y):
-	'''
-	cost function
-	X shape is [M,N], N is features number, M is samples number
-	y shape is [M,1]
-	params shape is [N,1]
-	return cost value
-	'''
-	z = np.dot(X, params)#shape[M,1]
-	h = sigmoid(z)#[M,1]
-	#[1,M]*[M,1] = [1,1]
-	J = (-np.dot(np.transpose(y),np.log(h))-np.dot(np.transpose(1-y),np.log(1-h)))/len(y)
-	return J
+train_normal_dir = train_dir+'NORMAL/'
+train_pneumonia_dir = train_dir+'PNEUMONIA/'
 
-def gradient(params, X, y):
-	'''
-	calculate gradient of cost function
-	'''	
-	h=sigmoid(np.dot(X, params))#[M,1]
-	grad = np.dot(X.T, (y-h))#[N,M]*[M,1]=[N,1]
-	return grad
+normal_cases = glob.glob(train_normal_dir+'*.jpeg')
+#print(normal_cases)
+pneumonia_cases = glob.glob(train_pneumonia_dir+'*.jpeg')
 
-def gradientDescent(params, X, y, alpha, iterations):
-	'''
-	Gradient descent
-	'''
-	J_trace = np.zeros((iterations, 1))
-	for i in range(iterations):
-		grad = gradient(params, X, y)
-		params = params - alpha*grad
-		J_trace[i] = costFun(params, X, y)
+train_data = []
+for img in normal_cases:
+	train_data.append((img,0))
+# print(train_data[0])
+for img in pneumonia_cases:
+	train_data.append((img,1))
 
-	return params, J_trace
+img = cv2.imread(train_data[0][0])
+gray_img = cv2.cvtColor(train_data[0][0],cv2.COLOR_BGR2GRAY)
+cv2.imshow('1',gray_img)
+cv2.waitKey(0)
 
-def main():
-	a=1 if 1==1 else 0
-	print a
-if __name__ == '__main__':
-	main()
+# def main():
+# 	a=1 if 1==1 else 0
+# 	print a
+# if __name__ == '__main__':
+# 	main()
 

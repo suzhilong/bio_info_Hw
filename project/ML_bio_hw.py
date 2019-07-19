@@ -47,6 +47,10 @@ def classify(params, X, n=1):
 		# 	y[i] = 1 if h[0] >= 0.5 else 0
 		y = np.round(h)#easy method
 		return y#[M,1]
+	if n==2:#SVM
+		pass
+	if n==3:#neural network
+		pass
 
 def precise(y, y_predict):
 	'''
