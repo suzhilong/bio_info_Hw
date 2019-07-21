@@ -1,7 +1,6 @@
 #-*- coding:utf-8 -*-
 import numpy as np
 
-#######logistic
 def sigmoid(z):
 	s = 1.0/(1.0+np.exp(-z))
 	return s
@@ -50,4 +49,30 @@ def logistic_gradientDescent(params, X, y, alpha, reg):
 	#params[N,1] 
 	params = params - alpha*grad
 	return params, J
-#######logistic
+
+def classify(params, X):
+	'''
+	classify
+	'''
+	z = np.dot(X, params)#shape[M,1]
+	h = sigmoid(z)#[M,1]
+	# y = np.zeros((X.shape[0],1))
+	# for i in range(h.shape[0]):
+	# 	y[i] = 1 if h[0] >= 0.5 else 0
+	y = np.round(h)#easy method
+	return y#[M,1]
+
+def pricise(y, y_predict):
+	'''
+	return pricise of predict
+	'''
+	same = 0.0#cution! if there is a int,pricise always 0
+	M = y.shape[0]
+	for i in range(M):
+		#print('y_predict['+str(i)+']',y_predict[i])
+		#print('y['+str(i)+']:',y[i])
+		if y_predict[i] == y[i]:
+			same += 1
+	pricise = same/M
+	#print pricise
+	return pricise

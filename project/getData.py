@@ -29,10 +29,11 @@ def get_data(path,train_flag=False):
 	y_list = []
 	print 'reading '+path+' data...'
 	flag = -1
+	num_train = 624
 	for data in data_list:
 		flag += 1
 		if train_flag:
-			if flag>101 and flag<len(data_list)-100:
+			if flag>(num_train/2)+1 and flag<len(data_list)-(num_train/2):
 				continue
 		img = cv2.imread(data[0])
 		img = cv2.resize(img,(224,224))#resize all images to same size
